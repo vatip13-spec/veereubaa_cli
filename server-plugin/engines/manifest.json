@@ -1,0 +1,13 @@
+{
+  "protocol": 1,
+  "engines": {
+    "verba": {
+      "hash": "a6938841d111e500f5221ea366cfc1423066c9838f6aa0e09286b4bf8297ea5c",
+      "version": "0.6.143-cli.1"
+    },
+    "verba-deep": {
+      "hash": "be76276c62ab05882e52980d0168ffee571a48ba0db7cccab267e13c9870f4de",
+      "version": "0.6.113-cli.1"
+    }
+  }
+}
