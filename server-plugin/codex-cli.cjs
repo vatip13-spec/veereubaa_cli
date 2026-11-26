@@ -10,7 +10,6 @@ const { failure } = require('./provider.cjs');
 
 const GPT_MODEL = /^gpt-[a-z0-9][a-z0-9._-]{0,79}$/i;
 const EFFORT = /^[a-z][a-z0-9_-]{0,23}$/;
-const TRANSLATION_TIMEOUT = 180000;
 
 function executable() {
     if (process.env.VERBA_CODEX_EXECUTABLE) return [process.env.VERBA_CODEX_EXECUTABLE, []];
@@ -65,7 +64,7 @@ async function translateCodex(prompt, config = {}, { signal } = {}) {
         args.push('-');
         const content = await new Promise((resolve, reject) => {
             const child = execFile(command, [...prefix, ...args], {
-                cwd, signal, timeout: TRANSLATION_TIMEOUT, maxBuffer: 4 * 1024 * 1024,
+                cwd, signal, maxBuffer: 4 * 1024 * 1024,
                 encoding: 'utf8', windowsHide: true, shell: false,
             }, (error, stdout) => error ? reject(error) : resolve(stdout));
             child.stdin.on('error', () => {}); // execFile reports the process error.

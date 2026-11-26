@@ -1,0 +1,33 @@
+{
+  "version": "0.6.118-cli.1",
+  "date": "2026-11-26",
+  "upstream_commit": "8251868f89ab3b88790fec6154208b5d12aa0dac",
+  "cli_tests": {
+    "passed": 13,
+    "failed": 0,
+    "transport": "mock executable; no authenticated provider calls"
+  },
+  "related_shared_server_tests": {
+    "passed": 42,
+    "failed": 0
+  },
+  "existing_deep_suite": {
+    "tests": 454,
+    "passed": 424,
+    "failed": 30,
+    "upstream_failed": 30,
+    "identical_failure_names": true,
+    "new_failures": 0
+  },
+  "shared_engines": {
+    "verba": {
+      "hash": "d263dd73b847434dffdf02f2969ee0f98e3bd967af2ad3451c332027a7e82f20",
+      "version": "0.6.148-cli.1"
+    },
+    "verba-deep": {
+      "hash": "0ad4c7a99824bf430b63425c85665ac0c13aa6703a28c1ab10d0809d298351ea",
+      "version": "0.6.118-cli.1"
+    }
+  },
+  "live_SillyTavern_tested": false
+}

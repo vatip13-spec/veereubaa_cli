@@ -1,24 +1,49 @@
-# 베에르으바아 Codex CLI 포크
+# 긴르바 Codex CLI · 0.6.118-cli.1
 
-- 포크 버전 `0.6.113-cli.1`
-- 변경일 2026-11-13
-- 원본 [foreverharibo-boop/veereubaa](https://github.com/foreverharibo-boop/veereubaa), 커밋 `61efe4f`
-- 공용 서버 기반 [vatip13-spec/verba_cli](https://github.com/vatip13-spec/verba_cli/tree/f6ede57f26ad1293d8a55a50d1245402cd3fb324). 공용 서버의 원본은 담은의 [베르바](https://github.com/foreverharibo-boop/verba)입니다.
-- 라이선스 AGPL-3.0-only. 원작자 및 출처는 [NOTICE](NOTICE)를 참고하세요.
+- 수정일: 2026-11-26
+- 원본: 담은(foreverharibo-boop)의 베에르으바아(긴르바)
+- 원본 저장소: https://github.com/foreverharibo-boop/veereubaa
+- 원본 버전: 0.6.118, 커밋 `8251868f89ab3b88790fec6154208b5d12aa0dac`
+- CLI 기능 출처: https://github.com/vatip13-spec/veereubaa_cli 의 `acc8ff724a7a5be8a0100042befcad56aae2d784`
+- 최신 원본에 CLI 연결, 모델·리즈닝 선택과 필요한 서버 전달만 추가했습니다.
+- 공용 서버는 담은의 베르바 최신 서버를 기반으로 합니다. 라이선스 AGPL-3.0-only이며 NOTICE와 LICENSE의 고지를 유지합니다.
 
-## 설치
+## 설치·업데이트
 
-1. SillyTavern이 실행되는 환경에서 Codex CLI를 설치하고 같은 계정으로 `codex login`을 완료합니다.
-2. SillyTavern을 종료합니다. 기존 베에르으바아 확장과 Verba 서버 플러그인이 설치되어 있으면, 백업 폴더를 SillyTavern이 읽는 확장·플러그인 경로 밖에 둡니다.
-3. ZIP의 `veereubaa_cli` 폴더를 SillyTavern의 `data/default-user/extensions/` 안에 복사합니다. 다른 사용자 계정이나 데이터 경로를 사용하면 해당 계정의 확장 폴더를 사용하세요.
-4. ZIP의 `veereubaa_cli/server-plugin` 폴더를 SillyTavern의 `plugins/verba-server`로 복사합니다. 최종 경로는 `plugins/verba-server/index.cjs`입니다. 베르바 CLI와 베에르으바아 CLI를 함께 설치할 때도 이 공용 서버 플러그인 한 사본을 사용합니다.
-5. `config.yaml`의 `enableServerPlugins`를 `true`로 설정하고 SillyTavern을 재시작합니다.
+1. SillyTavern을 실행하는 환경의 같은 계정에서 Codex CLI 설치와 `codex login`을 완료합니다.
+2. SillyTavern을 종료합니다. 기존 긴르바 확장과 `plugins/verba-server`를 백업할 경우, 확장·플러그인 경로 밖에 보관하세요.
+3. 압축파일의 `veereubaa_cli` 내용으로 기존 긴르바 CLI 확장 폴더를 교체합니다. 신규 설치는 `data/default-user/extensions/veereubaa_cli`에 둡니다. 다른 사용자·데이터 경로를 쓰면 해당 계정의 확장 폴더를 사용하세요. 같은 긴르바가 두 폴더에서 중복 로드되지 않게 합니다.
+4. 압축파일의 `veereubaa_cli/server-plugin` 내용으로 `SillyTavern/plugins/verba-server`를 교체합니다. 최종 경로는 `plugins/verba-server/index.cjs`입니다. **확장과 공용 서버 플러그인 둘 다 이번 ZIP 내용으로 교체해야 합니다.**
+5. `config.yaml`에서 `enableServerPlugins: true`를 확인하고 SillyTavern을 재시작한 뒤 브라우저를 새로고침합니다.
 
-이 포크의 공용 서버는 ZIP에서 수동으로 설치하세요. 원본의 `install-server.sh`는 원본 베르바 서버를 내려받습니다. 서버에서 CLI를 찾지 못하면 `VERBA_CODEX_EXECUTABLE` 환경 변수로 실행 파일 경로를 지정할 수 있습니다.
+이 ZIP은 수동 설치용입니다. 원본의 `install-server.sh`나 SERVER.md의 원본 자동 설치 경로는 CLI가 없는 원본 서버를 내려받으므로 이번 설치에는 사용하지 마세요. 기존 서버 폴더가 Git 자동 업데이트 대상이면, 자동 업데이트로 CLI 파일이 덮어써지지 않도록 이번 ZIP의 `server-plugin` 폴더로 교체하세요.
+
+Codex 실행 파일을 찾지 못하면 서버 환경 변수 `VERBA_CODEX_EXECUTABLE`로 실행 파일 경로를 지정할 수 있습니다.
+
+## 베르바 CLI와 함께 사용
+
+이번 공용 서버에는 다음 두 엔진이 함께 들어 있습니다.
+
+| 확장 | 지원 버전 |
+| --- | --- |
+| 베르바 CLI | 0.6.148-cli.1 |
+| 긴르바 CLI | 0.6.118-cli.1 |
+
+앞서 받은 베르바 CLI의 확장 파일은 그대로 사용하고, 공용 `plugins/verba-server`만 **이번 긴르바 ZIP에 들어 있는 서버로 교체**하세요. 공용 서버 폴더는 한 사본만 설치합니다. 이전 베르바 ZIP의 서버를 나중에 다시 덮어쓰면 이번 긴르바 엔진이 빠지므로 서버 교체는 이번 ZIP을 기준으로 하세요.
 
 ## 사용
 
-1. **베에르으바아 설정 → 번역 엔진·연결 프로필 → Codex CLI 사용**을 체크합니다.
-2. **GPT 모델**과 **리즈닝 강도**를 고릅니다.
-3. **현재 AI 연결 테스트**를 눌러 선택한 CLI 모델의 번역 응답을 확인합니다.
-4. 평소 쓰던 번역 버튼을 사용합니다. 체크를 끄면 이전에 선택한 번역 엔진과 연결 프로필로 돌아갑니다.
+1. 긴르바 설정 → 번역 엔진·연결 프로필 → **Codex CLI 사용**을 켭니다.
+2. CLI에서 제공하는 **GPT 모델**과 **리즈닝 강도**를 선택합니다.
+3. **현재 AI 연결 테스트**를 눌러 테스트 번역문을 확인합니다.
+4. 기존 입력·출력 번역과 선택 재번역 버튼을 사용합니다. CLI를 끄면 저장된 기존 엔진·프로필을 다시 사용합니다.
+
+CLI는 브라우저 번역 모드에서도 SillyTavern 서버에서 실행됩니다. 서버 번역 모드도 지원합니다. 최신 원본의 번역 프롬프트, 원문 병기와 display_text 저장, 토큰 설정, 시간 경과에 따른 자동 중단 제거와 사용자 취소 처리를 유지했습니다.
+
+## 검증
+
+- CLI 관련 검증 13개 통과: 브라우저 전달, 두 실제 엔진의 CLI 분기, 프로세스 인수·입력, 모델 목록, 취소, 잘못된 설정 거부, 두 확장의 공용 서버 동시 처리와 모델 설정 분리.
+- 관련 공용 서버 회귀 검증 42개 통과: 연결, 서버 작업, 취소·대기, 토큰 설정과 라우트.
+- 긴르바 전체 기존 테스트는 수정 전과 수정 후 모두 454개 중 424개 통과, 30개 실패입니다. 실패 항목은 정확히 같으며 새 실패는 없습니다. 기존 실패를 고치기 위한 번역 로직 변경은 하지 않았습니다.
+- 베르바 CLI 엔진은 앞서 제공한 0.6.148-cli.1의 파일을 그대로 포함했습니다.
+- CLI 프로세스 검증에는 모의 실행 파일을 사용했습니다. 실제 로그인된 계정과 SillyTavern 화면에서의 최종 동작은 설치 후 연결 테스트로 확인하세요.

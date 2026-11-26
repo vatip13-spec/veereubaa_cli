@@ -106,10 +106,9 @@ function createJobs({ engines, request, profileRequest, codexRequest, versions, 
                 const engine=engines[snapshot.variant].createEngine(snapshot,transport,e=>report(job,e));
                 if(['generation','observed-generation'].includes(kind)) {
                     job.state='generating';
-                    const timeout=setTimeout(()=>controller.abort(),20*60*1000);timeout.unref?.();
                     let response;
                     const routed = routeGeneration(connection, generation?.payload, selected.target, job.translationNotification);
-                    try { response=kind==='observed-generation' ? await job.response : await request(routed.connection,generation.path,routed.payload,{
+                    response=kind==='observed-generation' ? await job.response : await request(routed.connection,generation.path,routed.payload,{
                         signal:controller.signal,
                         onHeaders(status,type){job.httpStatus=status;job.type=type;},
                         onChunk(chunk){
@@ -117,7 +116,7 @@ function createJobs({ engines, request, profileRequest, codexRequest, versions, 
                             if(total+chunk.length>64*1024*1024){controller.abort();return;}
                             job.raw=Buffer.concat([job.raw,chunk]);
                         },
-                    }); } finally { clearTimeout(timeout); }
+                    });
                     job.generationDone=true;
                     if(response.status<200||response.status>=300) throw failure(response.status,`답변 생성 HTTP ${response.status}`);
                     const generatedSource=(String(generation?.prefix || '')+extractReply(response.body,response.type)).trim();

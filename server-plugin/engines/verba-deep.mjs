@@ -1,4 +1,4 @@
-// veereubaa/speaker-attribution-guards.js
+// deep-upstream/speaker-attribution-guards.js
 var speechVerb = "(?:said|says|say|saying|asked|asks|replied|replies|answered|answers|called|calls|shouted|shouts|whispered|whispers|muttered|mutters|added|adds|continued|continues|snapped|snaps|growled|growls|told|tells)";
 var knownActorMarker = "@@VERBA_SCOPE_KNOWN@@";
 var namedActor = "(?:@@VERBA_SCOPE_KNOWN@@|@@VERBA_(?:DEEP_)?NAME_\\d{4}@@|\\p{Lu}[\\p{L}\u2019'-]*(?:\\s+\\p{Lu}[\\p{L}\u2019'-]*){0,3})";
@@ -47,7 +47,7 @@ function hasUncertainPostQuoteTag(dialogue, text, aliases) {
   return hasUnrecognizedSpeechActor(firstSentence, aliases, true) || introducesIndirectSpeech(firstSentence) || /^(?:he|she|they)\s+(?:remembered|recalled|imagined)\b/iu.test(firstSentence);
 }
 
-// veereubaa/user-character-register.js
+// deep-upstream/user-character-register.js
 function userToTargetRegister(settings = {}) {
   return settings.developerRelationshipExperimentEnabled === true && ["banmal", "jondaetmal"].includes(settings.developerUserToTargetRegister) ? settings.developerUserToTargetRegister : "unset";
 }
@@ -72,7 +72,7 @@ Apply only to direct dialogue already present in the translation target, with US
   return rules.join("\n\n");
 }
 
-// veereubaa/translation-composer.js
+// deep-upstream/translation-composer.js
 var COMPOSITION = /* @__PURE__ */ Symbol("translation composition");
 var GENERAL_KEYS = /* @__PURE__ */ new Set(["output", "input", "selection", "mad", "hongjin"]);
 var INTERNAL_SENTENCE = /@@VERBA|\b(?:JSON|NAME LOCK|TARGET CHARACTER|TARGET-CHARACTER|TARGET ADDRESSEE GENDER|USER\/NPC|CURRENT USER|PRIMARY CAST REFERENCES|K→E input|segment id|editable id|between ids|protected (?:layout|structure|tokens)|required output format|identity spelling context|inert data)\b|Ignore every saved\/custom base instruction|This is the only E→K writing engine|Never apply this block to|Translation direction is always|User prompts may affect|LEFT CONTEXT|RIGHT CONTEXT|EXISTING KOREAN CONTEXT|Return exactly three distinct|Return a new Korean replacement for only|Preserve (?:Markdown|macros)|tags, attributes, code|Metadata keeps its existing number\/layout rules|^Handle /iu;
@@ -133,7 +133,7 @@ ${custom}
 The current engine context, active setting scopes, protected structure and response contract supplied by this request remain authoritative; this block replaces translation prose only. A CUSTOM MAD or CUSTOM HONGJIN block is the active writing instruction for that enabled taste, not an excluded ordinary base prompt. CUSTOM HONGJIN applies only to confirmed TARGET dialogue; CUSTOM MAD follows the enabled MAD scope. Apply it only within the enabled taste and speaker scope.` : "", parts.internal].filter(Boolean).join("\n");
 }
 
-// veereubaa/translation-context.js
+// deep-upstream/translation-context.js
 var TRANSLATION_REFERENCE_LIMIT = 2e3;
 var CONTEXT_INTERPRETATION_RULES = `CONTEXT AND MEANING: Before translating, resolve speakers, actors, targets, referents, affiliations and relationships from the current source and supplied reference facts. Choose meanings of ambiguous words, titles, forms of address and idioms from the whole passage and established roles, never from a nearby word or location alone. A change of setting does not change a person's established role; the same word may need different translations for different referents or functions. Preserve who does what to whom, possession, modifiers, cause/effect and each speaker's or thinker\u2019s viewpoint when restructuring Korean or omitting subjects. Render idioms and metaphors by contextual meaning in natural Korean while retaining intended imagery, humor and character voice. Do not invent facts or resolve genuine uncertainty without evidence. Explicit facts and changes in the current source take precedence over background notes. Fluent wording with incorrect roles, relationships, actors or targets is a mistranslation and must be corrected before output.`;
 function normalizeTranslationReference(value) {
@@ -153,7 +153,7 @@ END CHARACTER TRANSLATION REFERENCE` : ""
   ].filter(Boolean).join("\n\n");
 }
 
-// veereubaa/deepseek-korean.js
+// deep-upstream/deepseek-korean.js
 function deepseekKoreanEnabled(settings = {}) {
   return settings.developerDeepseekKoreanEnabled === true;
 }
@@ -481,7 +481,7 @@ Rebuild word order, grammatical subjects, modifier attachment, collocations, idi
 Preserve the scene's participants, actions, targets, concrete images, quantities and units, negation, conditions, chronology, uncertainty, and degree of emotion or force. These constraints protect events and meaning, NOT English syntax or word-for-word correspondence. Never invent motives or actions to make a sentence flow. Respect active character-specific register and style only within their authorized speaker scopes.
 For bilingual units, rewrite only Korean prose and preserve the original-language half exactly once with its existing format unless the bilingual check separately authorizes format repair. Preserve every supplied id, lock, protected token, tag, macro, executable element and line boundary. Never move content between units. Use adjacent SOURCE_CONTEXT only to interpret the current unit. After revising, read the Korean on its own for naturalness, then compare it against SOURCE again to verify that no meaning was omitted, added or altered. Return corrected units in the unified review JSON schema; no explanations or review notes.`;
 
-// veereubaa/bilingual-intent.js
+// deep-upstream/bilingual-intent.js
 var positiveCommands = [
   /(?:한\s*영|영\s*한)\s*병기(?:\s*(?:해|하라|해주세요|해줘|로\s*(?:출력|표기|번역)|적용|필수|요청|해야|하되))?/iu,
   /(?:원문|영어|영문)(?:\s*대사)?\s*[(/+·및과와]\s*(?:한국어|한글|번역)/iu,
@@ -667,7 +667,7 @@ async function resolveBilingualIntent(prompt, askOnce, signal = null) {
   return await awaitShared(job, signal);
 }
 
-// veereubaa/output-format.js
+// deep-upstream/output-format.js
 function activeCustomOutput(settings = {}) {
   const exclusive = settings.developerMode === true && (["all", "dialogueInner"].includes(settings.chuseokGalbwaeScope) || settings.chuseokGalbwaeEnabled === true && settings.chuseokGalbwaeScope !== "off");
   return exclusive ? "" : customTranslationInstruction(settings, "output") || "";
@@ -802,7 +802,7 @@ function outputFormatReviewContext(settings = {}) {
   return OUTPUT_FORMAT_POLICY + "\nFORMAT REFERENCE (retain requested source copies; do not expand their scope):\n" + JSON.stringify(activeOutputFormatRules(settings));
 }
 
-// veereubaa/code-content.js
+// deep-upstream/code-content.js
 var PROGRAM_LANGUAGES = /^(?:js|javascript|ts|typescript|jsx|tsx|css|scss|less|json|jsonc|python|py|sh|bash|shell|powershell|ps1|sql|java|c|cpp|csharp|cs|go|rust|ruby|rb|php|yaml|yml|toml|ini)$/i;
 var MACHINE_VALUE = /^(?:[\w]+[_./\\][\w./\\-]*|[a-z]+[A-Z][\w]*|https?:\/\/\S+|#[\da-f]{3,8}|\d+(?:\.\d+)?(?:px|em|rem|%|s|ms)?|true|false|null|undefined)$/;
 var CODE_LINE = /^\s*(?:(?:(?:const|let|var)\s+[\w$]+\s*=|(?:function|def|class)\s+[\w$]+\s*[(:{]|(?:if|while|for|switch|catch)\s*\(|(?:import|from)\s+[^\n]*\b(?:from|import)\b)|[\w.$]+\s*(?:\([^\n]*\)\s*[;{]?\s*$|(?:[+*/-]?=|=>))|[{}\[\]]\s*[,;]?\s*$|["'][^"']+["']\s*:|[.#][\w-]+\s*\{|[\w-]+\s*:\s*[^\n]*;)/;
@@ -941,7 +941,7 @@ function escapeCodeTranslation(text, quote) {
   return text.replace(/\\/g, "\\\\").replace(new RegExp(quote, "g"), "\\" + quote);
 }
 
-// veereubaa/response-parser.js
+// deep-upstream/response-parser.js
 function segmentNumberKey(id) {
   const match = typeof id === "string" && /^seg_([0-9]+)$/.exec(id);
   return match ? match[1].replace(/^0+(?=\d)/, "") : null;
@@ -1175,7 +1175,7 @@ function collectSegmentResponse(raw, expectedSegments = []) {
   return { partial, parseError, missingIds, repairs: [...new Set(repairs)], issues: [...new Set(issues)] };
 }
 
-// veereubaa/core.js
+// deep-upstream/core.js
 var PROTECTED_PATTERN = /<!--[\s\S]*?-->|<(thought|thinking|analysis|reasoning|scratchpad|start|starter)\b[^>]*>[\s\S]*?<\/\1\s*>|<style\b[^>]*>[\s\S]*?<\/style>|<script\b[^>]*>[\s\S]*?<\/script>|\{\{[\s\S]*?\}\}|https?:\/\/[^\s<]+|<\/?[\p{L}_][\p{L}\p{N}_.:-]*(?=[\s/>])(?:[^>"']|"[^"]*"|'[^']*')*>/giu;
 var PROTECTED_TOKEN_PATTERN = /@@VERBA_DEEP_(?:NAME_)?\d{4}@@/g;
 var PAIRED_TAG_SCANNER = /<\/?([\p{L}_][\p{L}\p{N}_.:-]*)(?=[\s/>])(?:[^>"']|"[^"]*"|'[^']*')*>/giu;
@@ -5426,7 +5426,7 @@ function inferLocalTargetDialogueScopes(segmented, identity = {}) {
   return scopes2;
 }
 
-// veereubaa/second-translation-diagnostics.js
+// deep-upstream/second-translation-diagnostics.js
 var TEXT_LIMIT = 16e4;
 var TOTAL_LIMIT = 2e6;
 var EVENT_LIMIT = 60;
@@ -5525,7 +5525,7 @@ function createSecondTranslationAttempt(options, profileSlot, prompt) {
   };
 }
 
-// veereubaa/timing.js
+// deep-upstream/timing.js
 var PRIMARY = /^output-(?:translation|retranslation)(?::(?:narration|target_dialogue|other_dialogue|tagged_content))?$/;
 var LABELS = [
   ["output-second-translation", "2\uCC28 \uBC88\uC5ED"],
@@ -5736,7 +5736,7 @@ function sanitizeOutputTiming(value) {
   };
 }
 
-// veereubaa/output-splitting.js
+// deep-upstream/output-splitting.js
 function outputSplitCount(settings = {}) {
   const count = Number(settings.developerOutputSplitCount);
   return [2, 3].includes(count) ? count : 1;
@@ -5830,7 +5830,14 @@ function createSplitRequestQueue(limit = 3) {
   });
 }
 
-// veereubaa/diagnostics.js
+// deep-upstream/output-tokens.js
+var DEFAULT_TRANSLATION_MAX_TOKENS = 15e3;
+function normalizedTranslationMaxTokens(value) {
+  const tokens2 = Math.floor(Number(value));
+  return Number.isSafeInteger(tokens2) && tokens2 > 0 ? tokens2 : DEFAULT_TRANSLATION_MAX_TOKENS;
+}
+
+// deep-upstream/diagnostics.js
 var requestEvidence = /* @__PURE__ */ new WeakMap();
 var LIMIT = 1e4;
 function sanitizeDebugValue(value, limit = 6e3) {
@@ -5980,7 +5987,7 @@ function requestFailureSummary(error) {
   return { kind, httpStatus: status };
 }
 
-// veereubaa/mad-output.js
+// deep-upstream/mad-output.js
 var pairs = [["[", "]"], ["(", ")"], ["\uFF08", "\uFF09"], ["\u3010", "\u3011"]];
 var quotes = [['"', '"'], ["\u201C", "\u201D"], ["\u2018", "\u2019"], ["'", "'"], ["\u300C", "\u300D"], ["\u300E", "\u300F"]];
 var token = /@@VERBA_(?:[A-Z]+_)*\d+@@/gu;
@@ -6107,7 +6114,7 @@ function enforceMadKoreanOnly(segmented, translations, settings = {}) {
   return stats;
 }
 
-// veereubaa/bilingual-review.js
+// deep-upstream/bilingual-review.js
 var TOKEN = /@@VERBA_(?:[A-Z]+_)*\d+@@/gu;
 var LIMIT_TARGETS = 80;
 var LIMIT_TEXT = 32e3;
@@ -6288,7 +6295,7 @@ function validBilingualReplacement(target, value) {
   return stack.length === 0;
 }
 
-// veereubaa/bilingual-diagnostics.js
+// deep-upstream/bilingual-diagnostics.js
 var KINDS = ["dialogue", "narration", "italic", "bold", "bracket", "code", "fenced"];
 var TYPES = ["dialogue_candidate", "narration", "tagged_content", "code_content"];
 var MODES = ["developerMode", "developerMadKoreanOutputEnabled", "developerHongjinFlavorEnabled", "developerMinimalPromptEnabled", "developerDeepseekKoreanEnabled", "developerCompressedPromptEnabled", "chuseokGalbwaeEnabled"];
@@ -6397,7 +6404,7 @@ function segmentTypeDiagnostic(segmented) {
   return Object.fromEntries(TYPES.map((type) => [type, (segmented.segments || []).filter((s) => s.type === type).length]));
 }
 
-// veereubaa/post-review.js
+// deep-upstream/post-review.js
 var POST_REVIEW_CHECKS = Object.freeze([
   { key: "meaning", label: "\uC758\uBBF8\xB7\uB204\uB77D\xB7\uB0B4\uC6A9 \uCD94\uAC00", rule: "Check contextual meaning, idioms, omissions, invented facts/actions/conditions, quantities and units, negation, force and consent against SOURCE. Resolve word senses through the actual scene, not isolated dictionary glosses." },
   { key: "referent", label: "\uB300\uBA85\uC0AC\xB7\uC9C0\uCE6D\xB7\uC18C\uC720 \uAD00\uACC4", rule: "Check who did what to whom, pronoun referents and ownership against SOURCE." },
@@ -6641,7 +6648,7 @@ async function reviewOutputOnce({ segmented, translations, settings = {}, speake
   }
 }
 
-// veereubaa/output-comparison.js
+// deep-upstream/output-comparison.js
 var STAGES = /* @__PURE__ */ new Set(["second-translation", "mad-korean-only", "mad-korean-only-final", "local-normalization", "output-post-review", "initial-parsed", "tag-normalization", "repairs", "dialogue-format", "english-review", "bilingual-review", "markup-integrity", "assembled", "received", "locked-segments", "display-normalization"]);
 var TYPES2 = /* @__PURE__ */ new Set(["narration", "dialogue_candidate", "tagged_content", "code_content"]);
 var METRICS = ["length", "latinLetters", "hangulLetters", "mixedLines", "koreanBracketPairs", "duplicateKoreanPairs"];
@@ -6870,7 +6877,7 @@ function createOutputComparison(segmented, enabled, settings = {}, binding = nul
   };
 }
 
-// veereubaa/minimal-output.js
+// deep-upstream/minimal-output.js
 var POST_TRANSLATION_AI_REPAIR_ENABLED = false;
 function minimalOutputEnabled(settings = {}) {
   return !deepseekKoreanEnabled(settings) && settings.developerMode === true && settings.developerMinimalPromptEnabled === true;
@@ -6982,7 +6989,7 @@ async function translateMinimalOutput(segmented, settings, options, { requestSeg
   };
 }
 
-// veereubaa/google-free.js
+// deep-upstream/google-free.js
 var GOOGLE_FREE_ENDPOINT = "https://translate.googleapis.com/translate_a/single";
 var DEFAULT_MAX_ENCODED_CHARS = 4200;
 var PROTECTED_TOKEN_PATTERN2 = /@@VERBA_DEEP_(?:NAME_)?[A-Z0-9_]*\d{4}@@|@@VERBA_DEEP_[A-Z0-9_]+@@/gu;
@@ -7073,19 +7080,19 @@ async function translateGoogleFreeChunk(text, {
   sourceLanguage = "auto",
   targetLanguage = "ko",
   signal = null,
-  fetchImpl = globalThis.fetch,
-  timeoutMs = 45e3
+  fetchImpl = globalThis.fetch
 } = {}) {
   if (signal?.aborted) throw signal.reason || abortError();
   if (typeof fetchImpl !== "function") throw new Error("\uC774 \uD658\uACBD\uC5D0\uC11C\uB294 \uBB34\uB8CC Google \uBC88\uC5ED \uC694\uCCAD\uC744 \uBCF4\uB0BC \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.");
   const controller = new AbortController();
-  let timedOut = false;
   const forwardAbort = () => controller.abort(signal?.reason || abortError());
   signal?.addEventListener?.("abort", forwardAbort, { once: true });
-  const timeout = setTimeout(() => {
-    timedOut = true;
-    controller.abort();
-  }, Math.max(1e3, Number(timeoutMs) || 45e3));
+  let removeAbortListener;
+  const cancelled = new Promise((_, reject) => {
+    const onAbort = () => reject(signal?.reason || abortError());
+    controller.signal.addEventListener("abort", onAbort, { once: true });
+    removeAbortListener = () => controller.signal.removeEventListener("abort", onAbort);
+  });
   const url = new URL(GOOGLE_FREE_ENDPOINT);
   url.searchParams.set("client", "gtx");
   url.searchParams.set("sl", sourceLanguage || "auto");
@@ -7093,24 +7100,23 @@ async function translateGoogleFreeChunk(text, {
   url.searchParams.set("dt", "t");
   url.searchParams.set("q", text);
   try {
-    const response = await fetchImpl(url.toString(), {
+    const response = await Promise.race([fetchImpl(url.toString(), {
       method: "GET",
       signal: controller.signal,
       credentials: "omit",
       cache: "no-store",
       headers: { Accept: "application/json,text/plain,*/*" }
-    });
+    }), cancelled]);
     if (!response?.ok) {
       const status = Number(response?.status) || 0;
       throw new Error(`\uBB34\uB8CC Google \uBC88\uC5ED \uC694\uCCAD \uC2E4\uD328${status ? ` (HTTP ${status})` : ""}`);
     }
-    return parseGoogleFreeResponse(await response.json());
+    return parseGoogleFreeResponse(await Promise.race([response.json(), cancelled]));
   } catch (error) {
     if (signal?.aborted) throw signal.reason || abortError();
-    if (timedOut) throw new Error("\uBB34\uB8CC Google \uBC88\uC5ED \uC751\uB2F5 \uB300\uAE30 \uC2DC\uAC04\uC774 \uCD08\uACFC\uB418\uC5C8\uC2B5\uB2C8\uB2E4.");
     throw error;
   } finally {
-    clearTimeout(timeout);
+    removeAbortListener();
     signal?.removeEventListener?.("abort", forwardAbort);
   }
 }
@@ -7145,7 +7151,7 @@ var GOOGLE_FREE_LIMITS = Object.freeze({
   concurrency: 2
 });
 
-// veereubaa/retry-policy.js
+// deep-upstream/retry-policy.js
 function normalizedServerRetryLimit(value = 5) {
   if (value === null || String(value).trim() === "") return 5;
   const number2 = Number(value);
@@ -7171,7 +7177,7 @@ function googleRetryHintSeconds(error) {
   return null;
 }
 
-// veereubaa/previous-user-context.js
+// deep-upstream/previous-user-context.js
 function appendPreviousUserContext(prompt, source) {
   if (typeof source !== "string" || !source.trim()) return prompt;
   return `${prompt}
@@ -7183,7 +7189,7 @@ ${JSON.stringify(source)}
 END PREVIOUS USER REFERENCE`;
 }
 
-// veereubaa/second-translation.js
+// deep-upstream/second-translation.js
 function secondTranslationEnabled(settings = {}) {
   return deepseekKoreanEnabled(settings) && settings.developerSecondTranslationEnabled === true && settings.translationEngine !== "google-free";
 }
@@ -7261,7 +7267,7 @@ ${JSON.stringify(drafts)}`;
   }
 }
 
-// veereubaa/taste-audit.js
+// deep-upstream/taste-audit.js
 var galbwae2 = (settings) => settings.developerMode === true && (["all", "dialogueInner"].includes(settings.chuseokGalbwaeScope) || settings.chuseokGalbwaeEnabled === true && !["off", "all", "dialogueInner"].includes(settings.chuseokGalbwaeScope));
 function tasteAuditScope(segment, speakerScopes = {}) {
   if (segment.type === "tagged_content") return "tagged_content";
@@ -7343,7 +7349,7 @@ async function runTasteQualityAudit({ enabled = false, segmented, translations, 
   }
 }
 
-// veereubaa/engine-entry.js
+// deep-upstream/engine-entry.js
 var variant = "verba-deep";
 function createEngine(snapshot, transport, report = () => {
 }) {
@@ -7362,7 +7368,6 @@ function createEngine(snapshot, transport, report = () => {
   function galbwaeExclusiveMode() {
     return settings.developerMode === true && normalizedChuseokGalbwaeScope(settings.chuseokGalbwaeScope, settings.chuseokGalbwaeEnabled) !== "off";
   }
-  const VERBA_DEEP_MAX_TOKENS = 15e3;
   const serverRetryStates = /* @__PURE__ */ new Map();
   const roleTermPlanCache = /* @__PURE__ */ new Map();
   const SCOPED_PARALLEL_REQUEST_LIMIT = 2;
@@ -7637,27 +7642,11 @@ function createEngine(snapshot, transport, report = () => {
     const controller = new AbortController();
     const forwardAbort = () => controller.abort();
     outerSignal?.addEventListener?.("abort", forwardAbort, { once: true });
-    const timeoutOverride = Number(options.timeoutSecondsOverride);
-    const timeoutSeconds = Number.isFinite(timeoutOverride) && timeoutOverride > 0 ? Math.min(3600, Math.max(20, timeoutOverride)) : cli ? 185 : normalizedProfileFailureTimeoutSeconds();
-    let timedOut = false;
-    let timer = null;
-    let removeHardStopAbort = null;
-    const hardStop = new Promise((_, reject) => {
-      const onAbort = () => {
-        if (timedOut) {
-          const timeoutError = new Error(`\uC751\uB2F5 \uB300\uAE30 \uC2DC\uAC04 ${timeoutSeconds}\uCD08\uB97C \uCD08\uACFC\uD588\uC2B5\uB2C8\uB2E4.`);
-          timeoutError.code = "VERBA_DEEP_TIMEOUT";
-          reject(timeoutError);
-          return;
-        }
-        reject(abortError2());
-      };
+    let removeAbortListener = null;
+    const cancelled = new Promise((_, reject) => {
+      const onAbort = () => reject(abortError2());
       controller.signal.addEventListener("abort", onAbort, { once: true });
-      removeHardStopAbort = () => controller.signal.removeEventListener("abort", onAbort);
-      timer = setTimeout(() => {
-        timedOut = true;
-        controller.abort();
-      }, timeoutSeconds * 1e3);
+      removeAbortListener = () => controller.signal.removeEventListener("abort", onAbort);
     });
     try {
       const executeRequest = async () => {
@@ -7672,11 +7661,11 @@ function createEngine(snapshot, transport, report = () => {
           return service.sendRequest(
             profileId,
             [{ role: "user", content: prompt }],
-            options.stage === "bilingual-check" ? 512 : VERBA_DEEP_MAX_TOKENS,
+            options.stage === "bilingual-check" ? 512 : normalizedTranslationMaxTokens(settings.maxTokens),
             { signal: controller.signal, ...wire ? { onDiagnostic: wire.provider } : {} }
           );
         });
-        const response = await Promise.race([request, hardStop]);
+        const response = await Promise.race([request, cancelled]);
         outputTiming.received(options.timing, timingRequest);
         wire?.response(extractResponseText(response));
         if (!extractResponseText(response).trim()) {
@@ -7689,18 +7678,10 @@ function createEngine(snapshot, transport, report = () => {
         return response;
       };
       const queuedRequest = options.profileRaceRequest === true ? enqueueProfileRaceRequest(executeRequest) : options.splitRequest === true ? enqueueSplitOutputRequest(executeRequest) : options.parallelRequest === true ? enqueueScopedParallelRequest(executeRequest) : enqueueRequest(executeRequest);
-      return await Promise.race([queuedRequest, hardStop]);
+      return await Promise.race([queuedRequest, cancelled]);
     } catch (error) {
       wire?.error(error);
       outputTiming.received(options.timing, timingRequest);
-      if (timedOut) {
-        const timeoutError = new Error(`\uC751\uB2F5 \uB300\uAE30 \uC2DC\uAC04 ${timeoutSeconds}\uCD08\uB97C \uCD08\uACFC\uD588\uC2B5\uB2C8\uB2E4.`);
-        timeoutError.code = "VERBA_DEEP_TIMEOUT";
-        timeoutError.cause = error;
-        if (settings.debugMode) rememberRequestError(timeoutError, { ...options, profileSlot });
-        attemptError = timeoutError;
-        throw timeoutError;
-      }
       if (controller.signal.aborted) {
         attemptError = abortError2();
         throw attemptError;
@@ -7720,8 +7701,7 @@ function createEngine(snapshot, transport, report = () => {
         timingRequest,
         attemptSucceeded ? "\uC751\uB2F5 \uC218\uC2E0" : outerSignal?.aborted ? "\uCDE8\uC18C" : "\uC624\uB958"
       );
-      if (timer) clearTimeout(timer);
-      removeHardStopAbort?.();
+      removeAbortListener?.();
       outerSignal?.removeEventListener?.("abort", forwardAbort);
       if (!cli && !outerSignal?.aborted) {
         recordProfileAttempt(profileSlot, {
@@ -7767,22 +7747,11 @@ function createEngine(snapshot, transport, report = () => {
       fallbacks: settings.autoProfileFallback !== false ? ordered.slice(1) : []
     };
   }
-  function normalizedProfileRaceTimeoutMinutes(value = settings.profileRaceTimeoutMinutes) {
-    return Math.min(1440, Math.max(1, Number(value) || 5));
-  }
   function normalizedProfileRaceStaggerSeconds(value = settings.profileRaceStaggerSeconds) {
     return Math.min(180, Math.max(5, Math.round(Number(value) || 35)));
   }
-  function normalizedProfileFailureTimeoutSeconds(value = settings.timeoutSeconds) {
-    return Math.min(3600, Math.max(60, Number(value) || 120));
-  }
   function profileRaceActive() {
     return settings.profileRaceEnabled === true && settings.autoProfileFallback !== false && configuredProfiles().length > 1;
-  }
-  function profileRaceTimeoutError(minutes = normalizedProfileRaceTimeoutMinutes()) {
-    const error = new Error(`\uC9C0\uC5F0 \uACBD\uC8FC \uC804\uCCB4 \uC81C\uD55C \uC2DC\uAC04 ${minutes}\uBD84\uC744 \uCD08\uACFC\uD588\uC2B5\uB2C8\uB2E4.`);
-    error.code = "VERBA_DEEP_PROFILE_RACE_TIMEOUT";
-    return error;
   }
   function profileDisplayName(profileId) {
     return profileList().find((profile) => profile.id === String(profileId))?.name || "\uBCF4\uC870 \uD504\uB85C\uD544";
@@ -7829,21 +7798,18 @@ The current task scope, source data, identities, protected structure and respons
 
 ${String(prompt || "")}`;
   }
-  function sendProfileRaceAttempt(prompt, options = {}, profiles = configuredProfileCycle(), retryAttempt = 0, deadlineAt = Date.now() + 3e5) {
+  function sendProfileRaceAttempt(prompt, options = {}, profiles = configuredProfileCycle(), retryAttempt = 0) {
     const candidates = [
       { slot: profiles.slot, id: profiles.active },
       ...profiles.fallbacks || []
     ].filter((profile) => profile?.id);
     if (candidates.length < 2) {
-      const remainingSeconds = Math.max(20, Math.ceil((deadlineAt - Date.now()) / 1e3));
-      const attemptTimeoutSeconds = Math.min(normalizedProfileFailureTimeoutSeconds(), remainingSeconds);
       return sendProfileRequest(prompt, {
         ...options,
         profileId: candidates[0]?.id || profiles.active,
         profileSlot: candidates[0]?.slot || profiles.slot,
         retryAttempt,
-        fallback: false,
-        timeoutSecondsOverride: attemptTimeoutSeconds
+        fallback: false
       });
     }
     const outerSignal = options.signal || null;
@@ -7881,16 +7847,11 @@ ${String(prompt || "")}`;
       const scheduleNext = () => {
         clearStagger();
         if (finished || nextIndex >= candidates.length) return;
-        const remaining = deadlineAt - Date.now();
-        if (remaining <= 0) {
-          finishFailure(profileRaceTimeoutError());
-          return;
-        }
         const staggerMs = normalizedProfileRaceStaggerSeconds() * 1e3;
         staggerTimer = setTimeout(() => {
           staggerTimer = null;
           launchNext();
-        }, Math.min(staggerMs, remaining));
+        }, staggerMs);
       };
       const launchNext = () => {
         if (finished || nextIndex >= candidates.length) return;
@@ -7902,8 +7863,6 @@ ${String(prompt || "")}`;
         childControllers.set(index, child);
         const abortChild = () => child.abort();
         outerSignal?.addEventListener?.("abort", abortChild, { once: true });
-        const remainingSeconds = Math.max(20, Math.ceil((deadlineAt - Date.now()) / 1e3) + 1);
-        const attemptTimeoutSeconds = Math.min(normalizedProfileFailureTimeoutSeconds(), remainingSeconds);
         sendProfileRequest(prompt, {
           ...options,
           signal: child.signal,
@@ -7911,8 +7870,7 @@ ${String(prompt || "")}`;
           profileSlot: profile.slot,
           retryAttempt,
           fallback: index > 0,
-          profileRaceRequest: true,
-          timeoutSecondsOverride: attemptTimeoutSeconds
+          profileRaceRequest: true
         }).then((response) => {
           if (finished) return;
           finished = true;
@@ -7964,20 +7922,10 @@ ${String(prompt || "")}`;
     const outerSignal = options.signal || null;
     const controller = new AbortController();
     const raceEnabled = profileRaceActive();
-    const raceTimeoutMinutes = normalizedProfileRaceTimeoutMinutes();
-    const raceDeadlineAt = raceEnabled ? Date.now() + raceTimeoutMinutes * 60 * 1e3 : 0;
-    let raceTimedOut = false;
-    let raceDeadlineTimer = null;
     const forwardAbort = () => controller.abort();
     if (outerSignal) {
       if (outerSignal.aborted) forwardAbort();
       else outerSignal.addEventListener("abort", forwardAbort, { once: true });
-    }
-    if (raceEnabled) {
-      raceDeadlineTimer = setTimeout(() => {
-        raceTimedOut = true;
-        controller.abort();
-      }, Math.max(1, raceDeadlineAt - Date.now()));
     }
     const requestOptions = { ...options, signal: controller.signal };
     const customPrompt = applyCustomTranslatorPrompt(prompt, options);
@@ -7993,8 +7941,7 @@ ${String(prompt || "")}`;
             outgoingPrompt,
             requestOptions,
             profiles,
-            attempt,
-            raceDeadlineAt
+            attempt
           ) : await sendProfileRequest(outgoingPrompt, {
             ...requestOptions,
             profileId: primaryProfileId,
@@ -8004,7 +7951,6 @@ ${String(prompt || "")}`;
           });
         } catch (primaryError) {
           if (isAbort(primaryError, controller.signal)) {
-            if (raceTimedOut) throw profileRaceTimeoutError(raceTimeoutMinutes);
             throw primaryError;
           }
           let cycleError = primaryError;
@@ -8037,9 +7983,6 @@ ${String(prompt || "")}`;
           const transient = transientError(cycleError);
           if (!transient) throw cycleError;
           if (maxRetries > 0 && attempt === maxRetries) break;
-          if (raceEnabled && Date.now() >= raceDeadlineAt) {
-            throw profileRaceTimeoutError(raceTimeoutMinutes);
-          }
           const fallbackDelay = serverRetryBackoffMs(attempt);
           const delay = retryAfterMs(cycleError) || fallbackDelay;
           const state = {
@@ -8056,11 +7999,7 @@ ${String(prompt || "")}`;
             `[\uBCA0\uC5D0\uB974\uC73C\uBC14\uC544] \uBC88\uC5ED \uC694\uCCAD \uC2E4\uD328 \u2014 ${state.retryCount}/${state.maxRetries || "\uBB34\uC81C\uD55C"}\uD68C \uC7AC\uC2DC\uB3C4 \uC608\uC815`,
             cycleError
           );
-          const boundedDelay = raceEnabled ? Math.min(delay, Math.max(1, raceDeadlineAt - Date.now())) : delay;
-          await outputTiming.wait(options.timing, () => wait(boundedDelay, controller.signal));
-          if (raceTimedOut || raceEnabled && Date.now() >= raceDeadlineAt) {
-            throw profileRaceTimeoutError(raceTimeoutMinutes);
-          }
+          await outputTiming.wait(options.timing, () => wait(delay, controller.signal));
           state.delayMs = 0;
           state.updatedAt = Date.now();
           updateServerRetryIndicator();
@@ -8071,7 +8010,6 @@ ${String(prompt || "")}`;
         { cause: lastError || void 0 }
       );
     } finally {
-      if (raceDeadlineTimer) clearTimeout(raceDeadlineTimer);
       serverRetryStates.delete(token2);
       updateServerRetryIndicator();
       outerSignal?.removeEventListener?.("abort", forwardAbort);
@@ -8822,22 +8760,20 @@ ${settings.allDialoguePrompt || ""}`.toLocaleLowerCase();
         options.tuning || null,
         speakerScopes
       ) : "";
-      const postReviewTimeoutSeconds = Math.min(60, normalizedProfileFailureTimeoutSeconds());
       const result = await reviewOutputOnce({
         segmented,
         translations,
         settings: config,
         speakerScopes,
         reference,
-        options: { ...options, postReviewTimeoutSeconds },
+        options,
         request: async (prompt, targets, requestOptions) => {
           const profiles = configuredProfileCycle();
           const response = await sendProfileRequest(prompt, {
             ...requestOptions,
             profileId: profiles.active,
             profileSlot: profiles.slot,
-            stage: "output-post-review",
-            timeoutSecondsOverride: postReviewTimeoutSeconds
+            stage: "output-post-review"
           });
           const parsed = collectPartialSegmentTranslations(extractResponseText(response), targets);
           if (parsed.parseError || parsed.partial.size !== targets.length) {
@@ -8876,7 +8812,6 @@ ${settings.allDialoguePrompt || ""}`.toLocaleLowerCase();
           profileSlot: profiles.slot,
           signal: sharedSignal,
           stage: "bilingual-check",
-          timeoutSecondsOverride: 20,
           timing: options.timing
         });
         const result = collectPartialSegmentTranslations(extractResponseText(response), expected);
